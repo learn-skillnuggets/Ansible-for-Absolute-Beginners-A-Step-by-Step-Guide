@@ -1,0 +1,16 @@
+---
+- name: Run Show Commands
+  hosts: routers  # Hosts to connect to
+  gather_facts: no # Do not gather facts
+
+  tasks:
+    - name: Retrieve output of show commands
+      cisco.ios.ios_command: # Cisco ios module being used
+        commands: # the command plugin in the above module
+          - show version # shows the ios version and you can use the | to breakdown the output
+          - show ip interface brief # shows the interfaces on the device
+      register: shows # saves the output of the commands as a variable called "shows"
+
+    - name: Print command output
+      debug: # tells the playbook to pring messages to the terminal
+        var: shows.stdout_lines # the var is asking for the variable that we want to display and to use Standard Output - the variable is "shows"
